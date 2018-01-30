@@ -102,10 +102,11 @@ namespace GdaxViewer
 
         private void OpenOrders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MessageBox.Show("Are you sure you want to cancel this order?", "Cancel Order", MessageBoxButton.YesNo,
+            var result = MessageBox.Show("Are you sure you want to cancel this order?", "Cancel Order", MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 
-            
+            if (result == MessageBoxResult.No) return;
+
             var lb = (ListBox)sender;
             if ((ListBoxItem)lb.SelectedItem == null) return;
             var value = ((ListBoxItem)lb.SelectedItem).Tag.ToString();
@@ -137,8 +138,9 @@ namespace GdaxViewer
             var result = MessageBox.Show("Are you sure you want to cancel all orders?", "Cancel Order", MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 
-            if(result == MessageBoxResult.Yes)
-                _gdaxService.CancelAllOrders();
+            if (result == MessageBoxResult.No) return;
+
+            _gdaxService.CancelAllOrders();
         }
 
         private void CalculateBailout(object sender, RoutedEventArgs e)
@@ -154,11 +156,16 @@ namespace GdaxViewer
         {
             var btn = (Button) sender;
             if (btn == null) return;
-            OrderSize.Text = "";
-            OrderPrice.Text = "";
+            var result = MessageBox.Show($"Are you sure you want to place a {btn.Tag} order?", "Place Order", MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            if (result == MessageBoxResult.No) return;
+            if (OrderSize.Text == "" || OrderPrice.Text == "") return; //TODO: do this right
+
             Enum.TryParse(btn.Tag.ToString(), out OrderSide side);
             var order = _gdaxService.OrdersService.PlaceLimitOrderAsync(side, ProductType.BtcEur,
                 Convert.ToDecimal(OrderSize.Text), Convert.ToDecimal(OrderPrice.Text));
+            OrderSize.Text = "";
+            OrderPrice.Text = "";
 
         }
 
