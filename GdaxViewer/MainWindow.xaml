@@ -6,16 +6,16 @@
         xmlns:local="clr-namespace:GdaxViewer"
         mc:Ignorable="d"
         Title="GDAX Viewer" Height="769.862" Width="644" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Grid Background="#FF2C2C2C">
+    <Grid x:Name="MainGrid" Background="#FF2C2C2C">
         <Label x:Name="BtcEurPrice" Content="" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
         <Label Content="Last Trade Price" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <Label Content="24hr Volume" HorizontalAlignment="Left" Margin="149,10,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <Label x:Name="BtcVolume" Content="" HorizontalAlignment="Left" Margin="149,20,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
+        <Label Content="24hr Volume" HorizontalAlignment="Left" Margin="136,10,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label x:Name="BtcVolume" Content="" HorizontalAlignment="Left" Margin="136,20,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
         <Label x:Name="TotalEur" Content="" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
         <Label Content="Total EUR" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Foreground="White"/>
         <Separator Height="20" Margin="0,62,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="TotalBtc" Content="" HorizontalAlignment="Left" Margin="149,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
-        <Label Content="Total BTC" HorizontalAlignment="Left" Margin="149,77,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label x:Name="TotalBtc" Content="" HorizontalAlignment="Left" Margin="136,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
+        <Label Content="Total BTC" HorizontalAlignment="Left" Margin="136,77,0,0" VerticalAlignment="Top" Foreground="White"/>
         <Label x:Name="AnticipatedReturns" Content="" HorizontalAlignment="Left" Margin="481,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
         <Label Content="Anticipated Returns" HorizontalAlignment="Left" Margin="481,77,0,0" VerticalAlignment="Top" Foreground="White"/>
         <ListBox x:Name="OpenOrders" HorizontalAlignment="Left" Height="148" Margin="10,161,0,0" VerticalAlignment="Top" Width="298" Background="#FF232323" BorderBrush="#FF707070" Foreground="White" SelectionMode="Single" SelectionChanged="OpenOrders_SelectionChanged"/>
@@ -29,7 +29,7 @@
         <Button Content="2%" Tag="2" HorizontalAlignment="Left" Margin="204,344,0,0" VerticalAlignment="Top" Width="24" Height="25" Background="#FF404040" Foreground="White" Click="PercClick"/>
         <Button Content="3%" Tag="3" HorizontalAlignment="Left" Margin="234,344,0,0" VerticalAlignment="Top" Width="24" Height="25" Background="#FF404040" Foreground="White" Click="PercClick"/>
         <Label x:Name="CalcTotal" Content="" HorizontalAlignment="Left" Margin="264,334,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" MouseDown="CalcTotal_MouseDown"/>
-        <Label x:Name="StaleBtc" Content="" HorizontalAlignment="Left" Margin="313,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
+        <Label x:Name="StaleBtc" Content="" HorizontalAlignment="Left" Margin="313,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24" MouseDown="StaleBtcMouseDown"/>
         <Label Content="Total Stale BTC" HorizontalAlignment="Left" Margin="313,77,0,0" VerticalAlignment="Top" Foreground="White"/>
 
         <!--<Button Content="⚙" HorizontalAlignment="Left" Margin="570,10,0,0" VerticalAlignment="Top" Width="50" Height="50" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" FontSize="28" Cursor="Hand" Click="Button_Click"/>-->
@@ -42,7 +42,7 @@
         <Button Content="Calculate" Tag="3" HorizontalAlignment="Left" Margin="174,418,0,0" VerticalAlignment="Top" Width="54" Height="25" Background="#FF404040" Foreground="White" Click="CalculateBailout"/>
         <Label Content="Day Start" HorizontalAlignment="Left" Margin="313,8,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBox x:Name="DayStartBalance" HorizontalAlignment="Left" Height="25" Margin="313,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Background="#FF2C2C2C" Foreground="White" BorderBrush="#FF707070" FontSize="18"/>
-        <Label x:Name="BailoutTotal" Content="€200000" HorizontalAlignment="Left" Margin="234,408,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
+        <Label x:Name="BailoutTotal" Content="" HorizontalAlignment="Left" Margin="234,408,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
         <Separator Height="20" Margin="0,446,0,0" VerticalAlignment="Top"/>
         <Label Content="Limit Order" HorizontalAlignment="Center" Margin="10,471,528,0" VerticalAlignment="Top" Foreground="White" FontSize="18"/>
         <Button Content="0.002" Tag="0.002" HorizontalAlignment="Left" Margin="10,522,0,0" VerticalAlignment="Top" Width="54" Height="25" Background="#FF404040" Foreground="White" Click="QuickBtc"/>
@@ -57,6 +57,6 @@
         <TextBox x:Name="OrderPrice" HorizontalAlignment="Left" Height="25" Margin="10,635,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="241" Background="#FF2C2C2C" Foreground="White" BorderBrush="#FF707070" FontSize="18"/>
         <Button Content="Buy" Tag="Buy" HorizontalAlignment="Left" Margin="10,682,0,0" VerticalAlignment="Top" Width="110" Height="25" Background="#FF00911A" Foreground="White" Click="PlaceOrder"/>
         <Button Content="Sell" Tag="Sell" HorizontalAlignment="Left" Margin="141,682,0,0" VerticalAlignment="Top" Width="110" Height="25" Background="#FFCB0000" Foreground="White" Click="PlaceOrder"/>
-
+        
     </Grid>
 </Window>

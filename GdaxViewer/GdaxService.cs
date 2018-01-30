@@ -43,5 +43,10 @@ namespace GdaxViewer
             await OrdersService.CancelAllOrdersAsync();
         }
 
+        public async Task<decimal> GetEurPrice()
+        {
+            var ep = await ProductsService.GetProductTickerAsync(ProductType.BtcEur);
+            return ep.Price;
+        }
     }
 }
