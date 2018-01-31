@@ -39,20 +39,27 @@ namespace GdaxViewer
 
         public async void Execute(IJobExecutionContext context)
         {
-            var btcEurTicker = await _gdaxService.ProductsService.GetProductTickerAsync(ProductType.BtcEur);
-            Thread.Sleep(300);
-            var openOrders = await _gdaxService.OrdersService.GetAllOrdersAsync(20);
-            Thread.Sleep(300);
-            var fills = await _gdaxService.FillsService.GetFillsByProductIdAsync(ProductType.BtcEur);
-            Thread.Sleep(300);
-            var accounts = await _gdaxService.AccountsService.GetAllAccountsAsync();
-            Thread.Sleep(300);
-            var finances = accounts.Where(x => x.Currency == "EUR" || x.Currency == "BTC");
-
-            App.Current.Dispatcher.Invoke(delegate
+            try
             {
-                _mainWindow.UpdateWindow(new GdaxOverview(btcEurTicker, openOrders, fills, finances));
-            });
+                var btcEurTicker = await _gdaxService.ProductsService.GetProductTickerAsync(ProductType.BtcEur);
+                Thread.Sleep(300);
+                var openOrders = await _gdaxService.OrdersService.GetAllOrdersAsync(20);
+                Thread.Sleep(300);
+                var fills = await _gdaxService.FillsService.GetFillsByProductIdAsync(ProductType.BtcEur);
+                Thread.Sleep(300);
+                var accounts = await _gdaxService.AccountsService.GetAllAccountsAsync();
+                Thread.Sleep(300);
+                var finances = accounts.Where(x => x.Currency == "EUR" || x.Currency == "BTC");
+
+                App.Current.Dispatcher.Invoke(delegate
+                {
+                    _mainWindow.UpdateWindow(new GdaxOverview(btcEurTicker, openOrders, fills, finances));
+                });
+            }
+            catch (Exception )
+            {
+                //
+            }
         }
     }
 }

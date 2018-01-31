@@ -48,9 +48,11 @@ namespace GdaxViewer
             ChromiumWebBrowser myBrowser = new ChromiumWebBrowser()
             {
                 Address = "https://uk.tradingview.com/chart/KZJtkOWA/",
-                Height = 265,
-                Width = 360,
-                Margin = new Thickness(264, 466, 0, 0)
+                Height = 300,
+                Width = 520,
+                Margin = new Thickness(0, 0, 10, 10),
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom
             };
             MainGrid.Children.Add(myBrowser);
 
@@ -73,6 +75,7 @@ namespace GdaxViewer
             _eurBalance = gdaxOverview.Finances.First(x => x.Currency == "EUR").Balance;
             _eurAvailableBalance = gdaxOverview.Finances.First(x => x.Currency == "EUR").Available;
             TotalEur.Content = "€" + Math.Round(_eurBalance, 2);
+            AvailableEur.Content = "€" + Math.Round(_eurAvailableBalance, 2);
             TotalBtc.Content = "฿" + Math.Round(gdaxOverview.Finances.First(x => x.Currency == "BTC").Balance, 10);
             _openOrders = gdaxOverview.OpenOrders.First().Where(x => x.Side == "sell").ToList();
             var returns = _openOrders.Sum(fill => fill.Size * fill.Price) + _eurBalance;
@@ -250,10 +253,13 @@ namespace GdaxViewer
             string value;
             if(btnTag.Contains("%"))
             {
+                var priceText = OrderPrice.Text;
+                var price = ConvertToDecimal(priceText);
+                if (price == -1) return;
                 var s = btnTag.TrimEnd('%');
                 var tag = Convert.ToDecimal(s);
                 if (tag == -1) return;
-                value = Math.Round(_eurBalance * tag/100,6).ToString(CultureInfo.InvariantCulture);
+                value = Math.Round((((_eurBalance - (decimal)0.8) / price) * tag) / 100, 10).ToString(CultureInfo.InvariantCulture); 
             }
             else
             {
@@ -262,7 +268,7 @@ namespace GdaxViewer
             OrderSize.Text = value;
         }
 
-        private decimal ConvertToDecimal(string d)
+        private decimal ConvertToDecimal(string d, bool supressMessages = false)
         {
             try
             {
@@ -270,15 +276,27 @@ namespace GdaxViewer
             }
             catch (FormatException)
             {
-                MessageBox.Show($"The number you have entered is not a valid input.", "Error", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                if (!supressMessages)
+                    MessageBox.Show($"The number you have entered is not a valid input.", "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
             }
             catch (OverflowException)
             {
-                MessageBox.Show($"The number you have entered is outside the bounds of a decimal number.", "Error", MessageBoxButton.OK,
+                if (!supressMessages)
+                    MessageBox.Show($"The number you have entered is outside the bounds of a decimal number.", "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
             return -1;
+        }
+
+        private void ApproxValue(object sender, TextChangedEventArgs e)
+        {
+            var sizeText = OrderSize.Text;
+            var priceText = OrderPrice.Text;
+            decimal size = ConvertToDecimal(sizeText, true), price = ConvertToDecimal(priceText, true);
+            if (size == -1 || price == -1) return;
+
+            ApproxBuy.Content = $"≈ €{Math.Round((size * price), 2)}";
         }
     }
 }
