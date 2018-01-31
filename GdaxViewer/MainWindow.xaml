@@ -14,7 +14,7 @@
         <Label x:Name="AvailableEur" Content="" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
         <Label Content="Available EUR" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Foreground="White"/>
         <Separator Height="20" Margin="0,62,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="TotalBtc" Content="" HorizontalAlignment="Left" Margin="308,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
+        <Label x:Name="TotalBtc" Content="" HorizontalAlignment="Left" Margin="277,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
         <Label Content="Total BTC" HorizontalAlignment="Left" Margin="272,77,0,0" VerticalAlignment="Top" Foreground="White"/>
         <Label x:Name="AnticipatedReturns" Content="" HorizontalAlignment="Left" Margin="641,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
         <Label Content="Anticipated Returns" HorizontalAlignment="Left" Margin="641,77,0,0" VerticalAlignment="Top" Foreground="White"/>
@@ -61,6 +61,8 @@
         <Button Content="100%" Tag="100%" HorizontalAlignment="Left" Margin="212,530,0,0" VerticalAlignment="Top" Width="39" Height="25" Background="#FF404040" Foreground="White" Click="QuickBtc"/>
         <Label x:Name="TotalEur" Content="" HorizontalAlignment="Left" Margin="137,87,0,0" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
         <Label Content="Total EUR" HorizontalAlignment="Left" Margin="137,77,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Button Content="◎" Tag="off" HorizontalAlignment="Left" Margin="227,478,0,0" VerticalAlignment="Top" Width="24" Height="25" Background="#FF404040" Foreground="White" Click="ToggleOnChart"/>
+
 
     </Grid>
 </Window>

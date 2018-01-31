@@ -30,6 +30,7 @@ namespace GdaxViewer
         private decimal _eurAvailableBalance;
         private decimal _eurPrice;
         private decimal _staleBtc;
+        private static ChromiumWebBrowser _webBrowser;
         
         public MainWindow()
         {
@@ -45,17 +46,19 @@ namespace GdaxViewer
             _gdaxService = new GdaxService(auth);
 
             Cef.Initialize();
-            ChromiumWebBrowser myBrowser = new ChromiumWebBrowser()
+            _webBrowser = new ChromiumWebBrowser()
             {
                 Address = "https://uk.tradingview.com/chart/KZJtkOWA/",
                 Height = 300,
                 Width = 520,
                 Margin = new Thickness(0, 0, 10, 10),
                 HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Bottom
+                VerticalAlignment = VerticalAlignment.Bottom,
+                
             };
-            MainGrid.Children.Add(myBrowser);
-
+            MainGrid.Children.Add(_webBrowser);
+            _webBrowser.Visibility = Visibility.Hidden;
+            
             marketFetcher.ScheduleTask(this, _gdaxService);
             marketFetcher.Execute(null);
         }
@@ -297,6 +300,25 @@ namespace GdaxViewer
             if (size == -1 || price == -1) return;
 
             ApproxBuy.Content = $"≈ €{Math.Round((size * price), 2)}";
+        }
+
+        private void ToggleOnChart(object sender, RoutedEventArgs e)
+        {
+            var btn = (Button)sender;
+            if (btn == null) return;
+            var btnTag = btn.Tag.ToString();
+            if (btnTag == "off")
+            {
+                _webBrowser.Visibility = Visibility.Hidden;
+                btn.Content = "◉";
+                btn.Tag = "on";
+            }
+            else if (btnTag == "on")
+            {
+                _webBrowser.Visibility = Visibility.Visible;
+                btn.Content = "◎";
+                btn.Tag = "off";
+            }
         }
     }
 }
